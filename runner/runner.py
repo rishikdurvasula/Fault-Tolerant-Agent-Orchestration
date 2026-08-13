@@ -9,6 +9,7 @@ from benchmark.tasks import run_benchmark_task
 from trajlog.trajectory import TrajectoryLogger
 from proxy.proxy import TransparentProxy
 from tools.tools import TOOL_REGISTRY
+from fault_injector.manifest import load_manifest
 
 
 def _direct_tool_caller(logger: TrajectoryLogger, run_id: str, tool_name: str, *args, **kwargs):
@@ -36,9 +37,12 @@ def run_direct(run_id: str, log_path: str, customer_id: int = 42) -> Tuple[Dict[
     return result, logger.read_all()
 
 
-def run_proxied(run_id: str, log_path: str, customer_id: int = 42) -> Tuple[Dict[str, Any], List[Dict[str, Any]]]:
+def run_proxied(run_id: str, log_path: str, customer_id: int = 42, fault_manifest: str | None = None, task_id: str | None = None) -> Tuple[Dict[str, Any], List[Dict[str, Any]]]:
     logger = TrajectoryLogger(log_path)
-    proxy = TransparentProxy(TOOL_REGISTRY, logger)
+    specs = []
+    if fault_manifest:
+        specs = load_manifest(fault_manifest)
+    proxy = TransparentProxy(TOOL_REGISTRY, logger, fault_specs=specs, task_id=task_id)
     result = run_benchmark_task(lambda rid, name, *a, **k: proxy.call(rid, name, *a, enable_proxy=True, **k), run_id, customer_id)
     return result, logger.read_all()
 
@@ -48,11 +52,13 @@ def _cli():
     parser.add_argument("mode", choices=["direct", "proxied"]) 
     parser.add_argument("--log", required=True)
     parser.add_argument("--run-id", default=str(int(time.time())))
+    parser.add_argument("--task-id", default="benchmark")
+    parser.add_argument("--fault-manifest", default=None)
     args = parser.parse_args()
     if args.mode == "direct":
         out, _ = run_direct(args.run_id, args.log)
     else:
-        out, _ = run_proxied(args.run_id, args.log)
+        out, _ = run_proxied(args.run_id, args.log, fault_manifest=args.fault_manifest, task_id=args.task_id)
     print(out)
 
 

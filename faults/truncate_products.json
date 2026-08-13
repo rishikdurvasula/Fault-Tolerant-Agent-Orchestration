@@ -1,0 +1,13 @@
+[
+  {
+    "fault_id": "products_truncate_001",
+    "task_id": "balance_lookup",
+    "tool_name": "search_products",
+    "call_index": 3,
+    "fault_type": "truncated_result",
+    "seed": 11,
+    "parameters": {
+      "max_items": 1
+    }
+  }
+]

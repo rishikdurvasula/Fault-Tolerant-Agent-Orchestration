@@ -1,0 +1,11 @@
+[
+  {
+    "fault_id": "customer_wrong_entity_001",
+    "task_id": "balance_lookup",
+    "tool_name": "get_customer",
+    "call_index": 1,
+    "fault_type": "wrong_entity",
+    "seed": 7,
+    "parameters": {}
+  }
+]

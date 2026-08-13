@@ -14,6 +14,23 @@ def get_account_balance(customer_id: int) -> Dict[str, Any]:
     balance = float(customer_id * 100 + 12.34)
     return {"customer_id": customer_id, "balance": balance, "currency": "USD"}
 
+
+# Historical data for stale-value fault testing
+_ACCOUNT_HISTORY: Dict[int, List[Dict[str, Any]]] = {
+    7: [
+        {"customer_id": 7, "balance": 700.00, "currency": "USD", "timestamp": 1600000000},
+        {"customer_id": 7, "balance": 1700.00, "currency": "USD", "timestamp": 1650000000},
+    ],
+    42: [
+        {"customer_id": 42, "balance": 4012.34, "currency": "USD", "timestamp": 1655000000},
+    ],
+}
+
+
+def get_account_balance_history(customer_id: int) -> List[Dict[str, Any]]:
+    """Return a list of historical balances for a customer (new helper for fault injection)."""
+    return _ACCOUNT_HISTORY.get(customer_id, [])
+
 def search_products(query: str) -> Dict[str, Any]:
     """Return deterministic product search results for simple queries."""
     catalog = [

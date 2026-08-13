@@ -1,0 +1,14 @@
+[
+  {
+    "fault_id": "balance_wrong_value_001",
+    "task_id": "balance_lookup",
+    "tool_name": "get_account_balance",
+    "call_index": 2,
+    "fault_type": "wrong_value",
+    "seed": 42,
+    "parameters": {
+      "field": "balance",
+      "replacement": 3200
+    }
+  }
+]

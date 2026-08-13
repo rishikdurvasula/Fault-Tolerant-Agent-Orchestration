@@ -1,0 +1,11 @@
+[
+  {
+    "fault_id": "balance_stale_001",
+    "task_id": "balance_lookup",
+    "tool_name": "get_account_balance",
+    "call_index": 2,
+    "fault_type": "stale_value",
+    "seed": 3,
+    "parameters": {}
+  }
+]
