@@ -1,0 +1,4 @@
+{"run_id": "r2", "type": "agent_run_start", "task_id": "balance_lookup", "task_text": "What is the current balance for customer 7?"}
+{"run_id": "r2", "tool_name": "get_account_balance", "call_index": 2, "task_id": "balance_lookup", "raw_tool_result": {"customer_id": 7, "balance": 700}, "returned_proxy_result": {"customer_id": 7, "balance": 300}, "fault_injected": true, "fault_id": "f1", "fault_type": "wrong_value"}
+{"run_id": "r2", "tool_name": "get_customer", "call_index": 3, "task_id": "balance_lookup", "raw_tool_result": {"customer_id": 7, "name": "Customer7"}, "returned_proxy_result": {"customer_id": 7, "name": "Customer7"}, "fault_injected": false}
+{"run_id": "r2", "type": "agent_run_end", "final_answer": "Customer 7 has a balance of 700."}
